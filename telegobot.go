@@ -130,6 +130,7 @@ func (b *Bot) HandleUpdate(update Update) {
             return
         }
 
-        // The logic for checking proxies is now in main.go, so no need to handle it here.
+        // The logic for checking proxies should now be handled in main.go
+        // Use fileURL directly in main.go where CheckProxies and SaveProxies are defined
     }
 }
