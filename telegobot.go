@@ -1,10 +1,11 @@
 package telegobot
 
 import (
+    "encoding/json"
     "fmt"
     "net/http"
-    "encoding/json"
     "os"
+    "strings"
 )
 
 const telegramAPI = "https://api.telegram.org/bot"
@@ -71,15 +72,13 @@ func (b *Bot) SendMessage(chatID int64, text string) error {
 }
 
 func (b *Bot) SendFile(chatID int64, filePath string) error {
-    url := fmt.Sprintf("%s%s/sendDocument", telegramAPI, b.Token)
     file, err := os.Open(filePath)
     if err != nil {
         return err
     }
     defer file.Close()
 
-    // Placeholder for actual file upload logic
-    // You would use multipart form here to upload the file to Telegram server
+    // Placeholder for file upload logic
 
     return nil
 }
@@ -131,20 +130,6 @@ func (b *Bot) HandleUpdate(update Update) {
             return
         }
 
-        // Pass file URL to main.go for proxy checking
-        activeProxies, err := CheckProxies(fileURL)
-        if err != nil {
-            b.SendMessage(chatID, "Failed to check proxies.")
-            return
-        }
-
-        resultFileName := "active_proxies.txt"
-        err = SaveProxies(resultFileName, activeProxies)
-        if err != nil {
-            b.SendMessage(chatID, "Failed to save active proxies.")
-            return
-        }
-
-        b.SendFile(chatID, resultFileName)
+        // The logic for checking proxies is now in main.go, so no need to handle it here.
     }
 }
